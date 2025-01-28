@@ -1,3 +1,6 @@
 streamlit
 llama_index
 llama-index-llms-ollama
+pypdf2
+pyttsx3
+gTTS
