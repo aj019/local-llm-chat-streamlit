@@ -73,7 +73,7 @@ def main():
 
     # Sidebar for model selection and multiple PDF upload
     st.sidebar.header("Options")
-    model = st.sidebar.selectbox("Choose a model", ["llama3.2", "phi3", "mistral", "gemma:7b"])
+    model = st.sidebar.selectbox("Choose a model", ["llama3.2", "phi3", "mistral", "gemma:7b", "deepseek-r1:7b,", "qwen2.5:7b"])
     logging.info(f"Model selected: {model}")
 
     uploaded_pdfs = st.sidebar.file_uploader("Attach PDFs", type="pdf", accept_multiple_files=True)
