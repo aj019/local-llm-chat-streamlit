@@ -7,6 +7,7 @@ import logging
 import time
 from PyPDF2 import PdfReader
 import json
+from io import BytesIO
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -42,13 +43,17 @@ def stream_chat(model, messages):
         logging.error(f"Error during streaming: {str(e)}")
         raise e
 
-# Function to read aloud text using gTTS
+# Function to read aloud text using gTTS and stream the audio directly
 def read_aloud_gtts(text):
     try:
         tts = gTTS(text=text, lang="en")
-        tts.save("response.mp3")
-        st.audio("response.mp3", format="audio/mp3", start_time=0)
-        logging.info("Audio playback started.")
+        # Use BytesIO to handle the audio file in memory
+        with BytesIO() as audio_io:
+            tts.write_to_fp(audio_io)
+            audio_io.seek(0)  # Move the seek pointer to the beginning of the file
+
+            st.audio(audio_io.read(), format="audio/mp3", start_time=0)
+            logging.info("Audio playback started.")
     except Exception as e:
         st.error("Error generating audio output.")
         logging.error(f"Error in read_aloud_gtts: {str(e)}")
